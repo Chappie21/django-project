@@ -40,6 +40,7 @@ DJANGO_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework.authtoken',
+    'corsheaders',
 ]
 
 EXTERNAL_APPS = [
@@ -56,6 +57,7 @@ INTERNAL_APPS = [
 INSTALLED_APPS = DJANGO_APPS + EXTERNAL_APPS + INTERNAL_APPS
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -63,6 +65,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
 ]
 
 ROOT_URLCONF = 'urbe_django.urls'
@@ -130,6 +133,12 @@ SIMPLE_JWT = {
     "USER_ID_CLAIM": "user_id",
 }
 
+# CORS Config
+CORS_ALLOWED_ORIGINS = [
+    'localhost:8000',
+    'localhost:5173'
+]
+CORS_ORIGIN_WHITELIST = CORS_ALLOWED_ORIGINS
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
