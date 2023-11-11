@@ -135,8 +135,8 @@ SIMPLE_JWT = {
 
 # CORS Config
 CORS_ALLOWED_ORIGINS = [
-    'localhost:8000',
-    'localhost:5173'
+    'https://localhost:8000',
+    'https://localhost:5173'
 ]
 CORS_ORIGIN_WHITELIST = CORS_ALLOWED_ORIGINS
 
