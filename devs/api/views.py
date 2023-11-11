@@ -1,7 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.viewsets import ViewSet, ModelViewSet
 from rest_framework.response import Response
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 from rest_framework import status
 from ..models import Dev
 from .serializers import DevSerializer
@@ -48,5 +48,5 @@ class DevViewSet(ViewSet):
 class DevModelViewSet(ModelViewSet):
     queryset = Dev.objects.all()
     serializer_class = DevSerializer
-    http_method_names = ['list', 'post']
-    permission_classes = [IsAdminUser]
+    http_method_names = ['get', 'retrive', 'post', 'put', 'delete']
+    permission_classes = [IsAuthenticated]

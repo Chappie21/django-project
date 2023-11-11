@@ -8,6 +8,8 @@ from user.api.serializer import UserSerializer
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from .serializers import RegisterSerializaer
+from drf_yasg.utils import swagger_auto_schema
 
 @api_view(['POST'])
 def login(request):
@@ -37,6 +39,38 @@ def login(request):
             'user': userData.data
         }
     )
+
+@api_view(['POST'])
+@swagger_auto_schema(
+    operation_description="register new user",
+    request_body=RegisterSerializaer,
+    responses={400: 'Bad request', 201: 'User registered successfully'}
+)
+def register(requets):
+    
+    # verify form data
+    registerSer = RegisterSerializaer(data=requets.data)
+
+    # verify all form is correct and not have errors
+    if not registerSer.is_valid():
+        return Response(status=status.HTTP_400_BAD_REQUEST, data=registerSer.errors)
+
+    # register user
+    user = registerSer.save()
+
+    # generate JWT token
+    token = RefreshToken.for_user(user)
+    
+    return Response(
+        status=status.HTTP_201_CREATED,
+        data = {
+            'message': 'User registered successfully',
+            'refresh': str(token),
+            'token': str(token.access_token),
+            'user': registerSer.data
+        }
+    )
+
 
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])
